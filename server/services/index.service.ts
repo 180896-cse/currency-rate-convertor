@@ -1,7 +1,7 @@
 import GetConversionRate from "./ConversionRate/conversionRate.service";
 
-const conversionRateService = new GetConversionRate();
+const objConversionRateService = new GetConversionRate();
 
-export default {
-  conversionRateService,
-};
+export const serviceObj = {
+  conversionRateService: objConversionRateService.getFetchedRate
+}

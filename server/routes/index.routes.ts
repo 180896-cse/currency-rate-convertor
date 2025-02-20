@@ -1,12 +1,13 @@
-import { Router } from "express";
-import conversionRateController from "../controllers/index.controller";
+import { Router, Request, Response } from "express";
+import {
+  getHealth,
+  conversionRateController,
+} from "../controllers/index.controller";
 
 const router = Router();
 
+router.route("/health").get(getHealth);
 
-router.get("/getConversionRate",():void=>{
-    conversionRateController
-})
-
+router.route("/getConversionRate").get(conversionRateController.fetchRate);
 
 export default router;
