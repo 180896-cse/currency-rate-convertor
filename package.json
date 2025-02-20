@@ -23,6 +23,7 @@
   "homepage": "https://github.com/180896-cse/currency-rate-convertor#readme",
   "devDependencies": {
     "@types/express": "^5.0.0",
+    "@types/request": "^2.48.12",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.3"
   },
@@ -30,6 +31,7 @@
     "axios": "^1.7.9",
     "cheerio": "^1.0.0",
     "dotenv": "^16.4.7",
-    "express": "^4.21.2"
+    "express": "^4.21.2",
+    "request": "^2.88.2"
   }
 }
