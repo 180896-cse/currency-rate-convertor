@@ -1,0 +1,33 @@
+{
+  "name": "currency-rate-convertor",
+  "version": "1.0.0",
+  "description": "Currency rate convertor using base EUR",
+  "main": "index.ts",
+  "scripts": {
+    "start": "nodemon ./server/server.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/180896-cse/currency-rate-convertor.git"
+  },
+  "keywords": [
+    "currency-convertor",
+    "rate"
+  ],
+  "author": "pratap Shantanu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/180896-cse/currency-rate-convertor/issues"
+  },
+  "homepage": "https://github.com/180896-cse/currency-rate-convertor#readme",
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
+  }
+}
