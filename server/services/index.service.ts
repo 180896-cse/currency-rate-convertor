@@ -8,5 +8,5 @@ const objDataFetcherService = new DataFetcherService();
 //Exporting the required functions
 export const serviceObj = {
   conversionRateService: objConversionRateService.getFetchedRate,
-  dataFetcherService: objDataFetcherService.getHtml,
+  dataFetcherService: objDataFetcherService.processRawHtml,
 };

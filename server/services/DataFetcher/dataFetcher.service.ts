@@ -1,19 +1,35 @@
 import * as cheerio from "cheerio";
-import request from "request"
+import axios from "axios";
 
 export default class DataFetcherService {
-  async getHtml() {
-    const $ = await request('https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.en.html', function (error, response, body) {
-      console.error('error:', error); // Print the error if one occurred
-      console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-      // console.log('body:', body); // Print the HTML for the Google homepage.
-      const $ = cheerio.load(body)
-      const divsWithClass = $('div.jumbo-box');
-      divsWithClass.each((i, div) => {
-        console.log($(div).text());
-      })
-    });
-    return 
-    
+  static async getHtmlData() {
+    try {
+      const fetchedData = await axios.get(process.env.ECB_URL || "BaseURL");
+      return fetchedData.data;
+    } catch (error: any) {
+      throw new Error(`Request failed: ${error.message}`);
+    }
+  }
+
+  async processRawHtml() {
+    try {
+      const ಠ_ಠ = await DataFetcherService.getHtmlData();
+      const $ = cheerio.load(ಠ_ಠ);
+      const currencyData:any = {};
+      $('tr').each((i, row) => {
+        // Get currency code and spot rate from each row
+        const currencyCode = $(row).find('td.currency').text();
+        const spotRate = $(row).find('span.rate').text();
+        
+        // Only add to object if both values exist
+        if (currencyCode && spotRate) {
+          currencyData[currencyCode] = parseFloat(spotRate);
+        }
+      });
+      console.log(currencyData);
+      
+    } catch (error: any) {
+      throw new Error(`Error in Processing RawData: ${error.message}`);
+    }
   }
 }
