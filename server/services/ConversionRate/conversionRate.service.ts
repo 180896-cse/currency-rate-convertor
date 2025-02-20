@@ -4,6 +4,10 @@ interface IGetConversionRate {
 
 export default class GetConversionRate implements IGetConversionRate {
   getFetchedRate(): string {
-    return `Data Received from service Class !!`;
+    try {
+      return `Data Received from service Class !!`;
+    } catch (error) {
+      throw error;
+    }
   }
 }
