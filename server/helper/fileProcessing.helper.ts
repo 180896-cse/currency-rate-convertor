@@ -1,39 +1,43 @@
-import fs from "fs";
+import fs from "fs/promises";
 import path from "path";
 
 export default class FileProcessingHelper {
+  private static dataPath = path.join(__dirname, "../data/data.json");
 
-// Function to write data on file
-  static writeData(data: object): string {
-    fs.writeFile(
-      path.join(__dirname, "../data/data.json"),
-      JSON.stringify(data),
-      (err) => {
-        if (err) {
-          throw err.message;
-        } else {
-          return "Success!!";
-        }
-      }
-    );
-    return "Data Written successfully!!";
+  /**
+   * Writes data to a JSON file
+   * @param data Object to write to file
+   * @returns Promise that resolves with success message
+   */
+
+  // Function to write data on file
+  static async writeData(data: object): Promise<string> {
+    try {
+      // Ensure the directory exists
+      const dir = path.dirname(this.dataPath);
+      await fs.mkdir(dir, { recursive: true });
+
+      // Write the file
+      await fs.writeFile(this.dataPath, JSON.stringify(data, null, 2));
+
+      return "Data written successfully!";
+    } catch (error: any) {
+      throw new Error(`Failed to write data: ${error.message}`);
+    }
   }
 
-// Function to Read data from File
-  static async readData() {
-    return new Promise((resolve, reject) => {
-      fs.readFile(path.join(__dirname, "../data/data.json"), 'utf-8',(err, data) => {
-        if (err) {
-          reject(`Error Reading File: ${err.message}`);
-        } else {
-          try {
-            const exchangeRates = JSON.parse(data);
-            resolve(exchangeRates);
-          } catch (error) {
-            reject("Error parsing JSON: " + error);
-          }
-        }
-      });
-    });
+  /**
+   * Reads data from the JSON file
+   * @returns Promise that resolves with parsed JSON data
+   */
+
+  // Function to Read data from File
+  static async readData(): Promise<any> {
+    try {
+      const data = await fs.readFile(this.dataPath, "utf8");
+      return JSON.parse(data);
+    } catch (error:any) {
+      throw new Error(`Failed to read data: ${error.message}`);
+    }
   }
 }
