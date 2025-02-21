@@ -4,6 +4,7 @@ import GetConversionRate from "../../services/ConversionRate/conversionRate.serv
 
 export default class GetConversionRateController {
   async fetchRate(request: Request, response: Response) {
+    await serviceObj.dataFetcherService();
     response.status(200).send({"data":await GetConversionRate.processData(request.body)});
   }
 }
