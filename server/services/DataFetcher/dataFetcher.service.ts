@@ -1,45 +1,36 @@
 import * as cheerio from "cheerio";
-import axios from "axios";
-import fs from "fs"
-import path from "path"
+import axios, { AxiosResponse } from "axios";
+import FileProcessingHelper from "../../helper/fileProcessing.helper";
 
 export default class DataFetcherService {
-  static async getHtmlData() {
+  static async getHtmlData():Promise<any> {
     try {
-      const fetchedData = await axios.get(process.env.ECB_URL || "BaseURL");
+      const fetchedData:AxiosResponse<any, any> = await axios.get(process.env.ECB_URL || "BaseURL");
       return fetchedData.data;
     } catch (error: any) {
       throw new Error(`Request failed: ${error.message}`);
     }
   }
 
-  async processRawHtml() {
+  async processRawHtml():Promise<any> {
     try {
       const ಠ_ಠ = await DataFetcherService.getHtmlData();
-      const $ = cheerio.load(ಠ_ಠ);
+      const $:cheerio.CheerioAPI = cheerio.load(ಠ_ಠ);
       const currencyData: any = {};
       $("tr").each((i, row) => {
         // Get currency code and spot rate from each row
-        const currencyCode = $(row).find("td.currency").text();
-        const spotRate = $(row).find("span.rate").text();
+        const currencyCode:string = $(row).find("td.currency").text();
+        const spotRate:string = $(row).find("span.rate").text();
 
         // Only add to object if both values exist
         if (currencyCode && spotRate) {
           currencyData[currencyCode] = parseFloat(spotRate);
         }
       });
-      // This file operation can be in another service as file operation service
-      fs.writeFile(path.join(__dirname,"../../Data/data.json"),JSON.stringify(currencyData),err =>{
-        if(err){
-          console.error(err);
-        }
-        else{
-          console.log("Data Written successfully!!");
-          
-        }
-      })
+      const isDataReceived = await FileProcessingHelper.writeData(currencyData)
+      return isDataReceived;
     } catch (error: any) {
-      throw new Error(`Error in Processing RawData: ${error.message}`);
+      return new Error(`Error in Processing RawData: ${error.message}`);
     }
   }
 }

@@ -4,6 +4,7 @@ import router from "./routes/index.routes";
 const app: Express = express();
 const PORT: string | Number = process.env.PORT || 3008;
 
+app.use(express.json())
 app.use(router)
 
 app.listen(PORT, () => {
