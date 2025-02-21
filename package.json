@@ -2,7 +2,7 @@
   "name": "currency-rate-convertor",
   "version": "1.0.0",
   "description": "Currency rate convertor using base EUR",
-  "main": "index.ts",
+  "main": "server.ts",
   "scripts": {
     "dev": "nodemon ./server/server.ts",
     "start": "npx ts-node ./server/server.ts",
